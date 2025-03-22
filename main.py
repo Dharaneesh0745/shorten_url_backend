@@ -24,11 +24,13 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
-    await db.connect()
+    async with db:
+        await db.connect()
 
 @app.on_event("shutdown")
 async def shutdown():
-    await db.disconnect()
+    async with db:
+        await db.disconnect()
 
 @app.get("/")
 async def root():
