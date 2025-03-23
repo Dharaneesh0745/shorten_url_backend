@@ -24,6 +24,8 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
+    import subprocess
+    subprocess.run(["prisma", "py", "fetch"])
     async with db:
         await db.connect()
 
